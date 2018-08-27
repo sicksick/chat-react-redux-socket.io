@@ -7,7 +7,10 @@ module.exports = merge(common, {
     mode: 'development',
     devtool: 'inline-source-map',
     devServer: {
-        port: 3000
+        port: 3000,
+        proxy: {
+            '/api': 'http://localhost:8080'
+        }
     },
     output: {
         path: path.join(__dirname, "dist"),
