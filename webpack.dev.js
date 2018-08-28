@@ -13,14 +13,14 @@ module.exports = merge(common, {
         }
     },
     output: {
-        path: path.join(__dirname, "dist"),
-        filename: "bundle.js",
+        path: path.join(__dirname, 'dist'),
+        filename: 'bundle.js',
     },
     module: {
         rules: [
             {
                 test: /\.(sass|scss)$/i,
-                use: ["style-loader", "css-loader", "sass-loader"]
+                use: ['style-loader', 'css-loader', 'sass-loader']
             }
         ]
     },

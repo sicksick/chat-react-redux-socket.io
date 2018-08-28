@@ -1,5 +1,5 @@
 const path = require('path');
-const HtmlWebPackPlugin = require("html-webpack-plugin");
+const HtmlWebPackPlugin = require('html-webpack-plugin');
 
 
 module.exports = {
@@ -10,14 +10,14 @@ module.exports = {
                 test: /\.js$/,
                 exclude: /node_modules/,
                 use: {
-                    loader: "babel-loader"
+                    loader: 'babel-loader'
                 }
             },
             {
                 test: /\.html$/,
                 use: [
                     {
-                        loader: "html-loader"
+                        loader: 'html-loader'
                     }
                 ]
             },
@@ -39,13 +39,13 @@ module.exports = {
         ]
     },
     resolve: {
-        extensions: [".js", ".jsx"]
+        extensions: ['.js', '.jsx']
     },
     plugins: [
         new HtmlWebPackPlugin({
-            template: "./src/index.html",
-            filename: "./index.html",
-            favicon: "./src/assets/favicon.ico"
+            template: './src/index.html',
+            filename: './index.html',
+            favicon: './src/assets/favicon.ico'
         }),
     ]
 };
