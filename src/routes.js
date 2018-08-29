@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {HashRouter, Route, Switch} from 'react-router-dom';
-import App from './containers/app/App';
+import App from './containers/app/app';
 import {checkLoginRequest} from "./actions/auth";
 import connect from "react-redux/es/connect/connect";
 import {bindActionCreators} from "redux";
