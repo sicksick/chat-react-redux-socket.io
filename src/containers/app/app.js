@@ -1,6 +1,9 @@
 import React, {Component} from 'react';
 import './App.sass';
-import {AppBar, Drawer, MenuItem} from 'material-ui'
+import Header from '../header/header';
+import { Route } from "react-router-dom";
+import Chat from "../chat/chat";
+import Home from "../home/home";
 
 class App extends Component {
     constructor(props) {
@@ -8,28 +11,12 @@ class App extends Component {
         this.state = {open: false};
     }
 
-    handleToggle = () => this.setState({open: !this.state.open});
-
-    handleClose = () => this.setState({open: false});
-
-
     render() {
         return (
             <div className="App">
-                <AppBar
-                    title="Chat React Redux Webpack 4"
-                    iconClassNameRight="muidocs-icon-navigation-expand-more"
-                    onLeftIconButtonClick={this.handleToggle.bind(this)}
-                />
-                <Drawer
-                    docked={false}
-                    width={200}
-                    open={this.state.open}
-                    onRequestChange={(open) => this.setState({open})}
-                >
-                    <MenuItem onClick={this.handleClose}>Menu Item</MenuItem>
-                    <MenuItem onClick={this.handleClose}>Menu Item 2</MenuItem>
-                </Drawer>
+                <Header match={this.props.match} history={this.props.history}/>
+                <Route exact path={`${this.props.match.path}`} component={Home}/>
+                <Route path={`${this.props.match.path}chat`} component={Chat}/>
             </div>
         );
     }

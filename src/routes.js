@@ -48,7 +48,7 @@ class RootRouter extends Component {
         return (
             <HashRouter>
                 <Switch>
-                    <PrivateRoute exact path='/' component={App} data={this.props}/>
+                    <PrivateRoute path='' component={App} data={this.props}/>
                 </Switch>
             </HashRouter>
         )
