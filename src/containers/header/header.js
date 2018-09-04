@@ -5,7 +5,6 @@ import Drawer from "@material-ui/core/es/Drawer/Drawer";
 import Toolbar from "@material-ui/core/Toolbar/Toolbar";
 import IconButton from "@material-ui/core/es/IconButton/IconButton";
 import Icon from "@material-ui/core/Icon/Icon";
-import './header.sass';
 import ListItemText from "../../../node_modules/@material-ui/core/ListItemText/ListItemText";
 import ListItem from "../../../node_modules/@material-ui/core/ListItem/ListItem";
 import List from "../../../node_modules/@material-ui/core/List/List";
@@ -46,7 +45,7 @@ class Header extends Component {
             <div className="Header">
                 <AppBar position="static">
                     <Toolbar variant="dense" className={this.props.classes.appBar}>
-                        <IconButton  color="inherit" aria-label="reorder" onClick={this.handleToggle}>
+                        <IconButton color="inherit" aria-label="reorder" onClick={this.handleToggle}>
                             <Icon>reorder</Icon>
                         </IconButton>
                         <Typography variant="title" color="inherit" className='flex'>
@@ -63,17 +62,17 @@ class Header extends Component {
                     >
                         <List component="nav">
                             <div>
-                                <ListItem button onClick={() =>this.handleClose(`${this.props.match.url}`)}>
+                                <ListItem button onClick={() => this.handleClose(`${this.props.match.url}`)}>
                                     <ListItemIcon>
-                                        <Home />
+                                        <Home/>
                                     </ListItemIcon>
-                                    <ListItemText primary="Home" />
+                                    <ListItemText primary="Home"/>
                                 </ListItem>
-                                <ListItem button onClick={() =>this.handleClose(`${this.props.match.url}chat`)}>
+                                <ListItem button onClick={() => this.handleClose(`${this.props.match.url}chat`)}>
                                     <ListItemIcon>
-                                        <Chat />
+                                        <Chat/>
                                     </ListItemIcon>
-                                    <ListItemText primary="Chat" />
+                                    <ListItemText primary="Chat"/>
                                 </ListItem>
                             </div>
                         </List>
