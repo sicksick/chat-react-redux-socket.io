@@ -2,6 +2,12 @@ import React, {Component} from 'react';
 import Grid from "@material-ui/core/es/Grid/Grid";
 import withStyles from "@material-ui/core/es/styles/withStyles";
 import Paper from "@material-ui/core/Paper/Paper";
+import TextField from "@material-ui/core/TextField/TextField";
+import Button from "@material-ui/core/Button/Button";
+import Icon from "@material-ui/core/Icon/Icon";
+import MessageArea from "../../components/messageArea"
+import Members from "../../components/members"
+import MessagesHistory from "../../components/messagesHistory"
 
 const styles = theme => ({
     root: {
@@ -12,17 +18,20 @@ const styles = theme => ({
         textAlign: 'center',
         color: theme.palette.text.secondary,
     },
-    chatMessages: {
-
+    messagesHistory: {
+      borderRight: '1px solid #ddd'
     },
     chat: {
-        height: '100%'
+        height: '100%',
     }
 });
 
 class Chat extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            name: '',
+        }
     }
 
     render() {
@@ -34,20 +43,13 @@ class Chat extends Component {
                       justify="flex-start"
                       alignItems="stretch"
                 >
-                    <Grid item
-                          xs={8}
-
-                          className={classes.chatMessages}
-                    >
-                        <Paper className={classes.paper}>xs=12</Paper>
+                    <Grid item xs={8} className={classes.messagesHistory}>
+                        <MessagesHistory />
                     </Grid>
-                    <Grid
-                        item
-                        xs={4}
-                        className={classes.chatMessages}
-                    >
-                        <Paper className={classes.paper}>xs=5</Paper>
+                    <Grid item xs={4} >
+                        <Members />
                     </Grid>
+                    <MessageArea />
                 </Grid>
         );
     }
