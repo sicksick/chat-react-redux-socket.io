@@ -52,7 +52,7 @@ class messageArea extends Component {
                 <Grid item xs={2}>
                     <Button variant="extendedFab" color="primary" className={classes.chatSendButton} fullWidth
                             aria-label="Delete">
-                        Send
+                        Send &nbsp;
                         <Icon>send</Icon>
                     </Button>
                 </Grid>

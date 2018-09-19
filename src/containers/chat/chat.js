@@ -1,10 +1,6 @@
 import React, {Component} from 'react';
 import Grid from "@material-ui/core/es/Grid/Grid";
 import withStyles from "@material-ui/core/es/styles/withStyles";
-import Paper from "@material-ui/core/Paper/Paper";
-import TextField from "@material-ui/core/TextField/TextField";
-import Button from "@material-ui/core/Button/Button";
-import Icon from "@material-ui/core/Icon/Icon";
 import MessageArea from "../../components/messageArea"
 import Members from "../../components/members"
 import MessagesHistory from "../../components/messagesHistory"

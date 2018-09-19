@@ -2,7 +2,8 @@ import {Component} from "react";
 import Grid from "@material-ui/core/es/Grid/Grid";
 import withStyles from "@material-ui/core/es/styles/withStyles";
 import React from "react";
-import Paper from "@material-ui/core/Paper/Paper";
+import MyMessage from './myMessage';
+import OtherMessage from './OtherMessage';
 
 const styles = theme => ({
 
@@ -19,10 +20,12 @@ class MessagesHistory extends Component {
         return (
             <Grid className='MessagesHistory'
                   container
-                  direction="row"
-                  justify="space-around"
+                  direction="column"
+                  justify="flex-start"
                   alignItems="stretch">
-                MESSAGES HISTORY
+
+                <MyMessage />
+                <OtherMessage />
 
             </Grid>
         );
