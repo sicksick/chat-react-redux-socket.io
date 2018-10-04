@@ -4,6 +4,7 @@ import App from './containers/app/app';
 import {checkLoginRequest} from "./actions/auth";
 import connect from "react-redux/es/connect/connect";
 import {bindActionCreators} from "redux";
+import {setTokenToSocketStateAction} from "./actions/socket";
 
 const mapDispatchToProps = function (dispatch) {
     return bindActionCreators({dispatch}, dispatch)
@@ -31,7 +32,7 @@ const PrivateRoute = ({component: Component, data: data, ...rest}) => {
                 if (data.login === false && token) {
                     checkLoginRequest(data.dispatch, token);
                 }
-
+                data.dispatch(setTokenToSocketStateAction(token));
                 return (<Component {...props} />)
             }}
         />

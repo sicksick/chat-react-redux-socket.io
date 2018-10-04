@@ -1,10 +1,12 @@
 import { combineReducers } from 'redux';
 import auth from './auth';
 import common from './common';
+import socket from './socket';
 
 const rootReducer = combineReducers({
     auth,
-    common
+    common,
+    socket
 });
 
 export default rootReducer;

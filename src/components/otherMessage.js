@@ -3,8 +3,8 @@ import Grid from "@material-ui/core/es/Grid/Grid";
 import withStyles from "@material-ui/core/es/styles/withStyles";
 import React from "react";
 import Paper from "@material-ui/core/Paper/Paper";
-import Avatar from '@material-ui/core/Avatar';
-import AccountCircle from '@material-ui/icons/AccountCircle';
+import Avatar from "@material-ui/core/Avatar";
+import AccountCircle from "@material-ui/icons/AccountCircle";
 
 
 const styles = theme => ({
