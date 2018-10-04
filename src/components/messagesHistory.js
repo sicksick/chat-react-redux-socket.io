@@ -4,14 +4,24 @@ import withStyles from "@material-ui/core/es/styles/withStyles";
 import React from "react";
 import MyMessage from './myMessage';
 import OtherMessage from './OtherMessage';
+import connect from "react-redux/es/connect/connect";
 
 const styles = theme => ({
 
 });
 
+
 class MessagesHistory extends Component {
     constructor(props) {
         super(props);
+        this.state;
+    }
+
+    componentDidMount() {
+        if (this.props.socket == null) {
+            return
+        }
+        this.props.socket;
     }
 
     render() {

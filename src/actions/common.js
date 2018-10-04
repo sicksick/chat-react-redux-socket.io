@@ -13,3 +13,9 @@ export const asyncAction = () => {
          return dispatch(preloaderStartAction())
     }
 };
+
+export const asyncActionPreloaderStopAction = () => {
+    return (dispatch) => {
+        return dispatch(preloaderStopAction())
+    }
+};

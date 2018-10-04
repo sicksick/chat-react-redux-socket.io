@@ -6,6 +6,8 @@ import Home from "../home/home";
 import Grid from "@material-ui/core/es/Grid/Grid";
 import Paper from "@material-ui/core/es/Paper/Paper";
 import {withStyles} from "@material-ui/core/es";
+import {connect} from "react-redux";
+import CircularProgress from "@material-ui/core/CircularProgress/CircularProgress";
 
 const styles = theme => ({
     root: {
@@ -28,11 +30,32 @@ const styles = theme => ({
     },
     grid12: {
         height: '100%'
+    },
+    progress: {
+        marginTop: "17%",
+        marginLeft: "46%",
+        position: 'absolute'
+    },
+    containerProgress: {
+        left: 0,
+        right: 0,
+        top: 0,
+        bottom: 0,
+        backgroundColor: '#858585',
+        opacity: 0.3,
+        position: 'absolute',
+        zIndex: 1
     }
 });
 
+function mapStateToProps(state) {
+    return {preload: state.common.preload};
+}
 
-class App extends Component {
+
+@connect(mapStateToProps)
+@withStyles(styles)
+export default class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {open: false};
@@ -42,7 +65,10 @@ class App extends Component {
         const classes = this.props.classes;
 
         return (
-            <div className={`App  ${classes.app}`}>
+            <div className={`App`}>
+                { this.props.preload ? <div className={classes.containerProgress} >
+                    <CircularProgress className={classes.progress} size={100} />
+                </div>: ''}
                 <Grid container className={classes.root} direction="row"
                       justify="center"
                       alignItems="stretch">
@@ -69,4 +95,3 @@ class App extends Component {
     }
 }
 
-export default withStyles(styles)(App);

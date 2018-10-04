@@ -7,6 +7,7 @@ import MessagesHistory from "../../components/messagesHistory"
 import {setDataAfterAuth} from "../../actions/socket";
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
+import {preloaderStartAction, preloaderStopAction} from "../../actions/common";
 const io = require('socket.io-client');
 
 const styles = theme => ({
@@ -29,7 +30,11 @@ const styles = theme => ({
 const SocketEndpoint = 'http://' + document.domain + ':8080';
 
 const mapDispatchToProps = function (dispatch) {
-    return {setDataAfterAuth: (data) => dispatch(setDataAfterAuth(data))};
+    return {
+        setDataAfterAuth: (data) => dispatch(setDataAfterAuth(data)),
+        preloaderStartAction: () => dispatch(preloaderStartAction()),
+        preloaderStopAction: () => dispatch(preloaderStopAction())
+    };
 };
 
 function mapStateToProps(state) {
@@ -41,7 +46,20 @@ class Chat extends Component {
         super(props);
         this.state = {
             name: '',
-        }
+            isConnected: false
+        };
+
+    }
+
+    componentWillMount() {
+        this.props.preloaderStartAction();
+    }
+
+    componentWillUnmount() {
+        this.setState({
+            isConnected: false,
+            socket: null
+        });
     }
 
     componentDidMount() {
@@ -56,13 +74,12 @@ class Chat extends Component {
             }
         });
 
-        this.setState({socket: socket});
-
         socket.on('connect', () => {});
 
         socket.on('auth', (data) => {
             this.setState({ isConnected: true });
             this.props.setDataAfterAuth(data.data);
+            this.setState({socket: socket});
         });
 
         socket.on('ping', data => {
@@ -72,7 +89,11 @@ class Chat extends Component {
 
     render() {
         const classes = this.props.classes;
-        this.socket
+
+        if (this.state.isConnected === true && this.state.socket) {
+            this.props.preloaderStopAction();
+        }
+
         return (
                 <Grid className={`Chat  ${classes.chat}`} container spacing={24}
                       direction="row"
@@ -80,12 +101,12 @@ class Chat extends Component {
                       alignItems="stretch"
                 >
                     <Grid item xs={8} className={classes.messagesHistory}>
-                        <MessagesHistory />
+                        {this.state.isConnected === true && this.state.socket ? <MessagesHistory socket={this.state.socket}/> : ''}
                     </Grid>
                     <Grid item xs={4} >
-                        <Members />
+                        {this.state.isConnected === true && this.state.socket ? <Members /> : ''}
                     </Grid>
-                    <MessageArea />
+                    {this.state.isConnected === true && this.state.socket ? <MessageArea /> : ''}
                 </Grid>
         );
     }
