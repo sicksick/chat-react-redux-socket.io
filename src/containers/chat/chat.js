@@ -8,6 +8,7 @@ import {setDataAfterAuth} from "../../actions/socket";
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 import {preloaderStartAction, preloaderStopAction} from "../../actions/common";
+
 const io = require('socket.io-client');
 
 const styles = theme => ({
@@ -20,7 +21,7 @@ const styles = theme => ({
         color: theme.palette.text.secondary,
     },
     messagesHistory: {
-      borderRight: '1px solid #ddd'
+        borderRight: '1px solid #ddd'
     },
     chat: {
         height: '100%',
@@ -48,18 +49,10 @@ class Chat extends Component {
             name: '',
             isConnected: false
         };
-
     }
 
     componentWillMount() {
         this.props.preloaderStartAction();
-    }
-
-    componentWillUnmount() {
-        this.setState({
-            isConnected: false,
-            socket: null
-        });
     }
 
     componentDidMount() {
@@ -77,37 +70,39 @@ class Chat extends Component {
         socket.on('connect', () => {});
 
         socket.on('auth', (data) => {
-            this.setState({ isConnected: true });
             this.props.setDataAfterAuth(data.data);
-            this.setState({socket: socket});
+            this.setState({socket: socket, isConnected: true});
+            if (this.state.isConnected === true && this.state.socket) {
+                this.props.preloaderStopAction();
+            }
         });
+    }
 
-        socket.on('ping', data => {
-            this.setState(data);
+    componentWillUnmount () {
+        this.setState({
+            socket: null,
+            isConnected: false
         });
     }
 
     render() {
         const classes = this.props.classes;
 
-        if (this.state.isConnected === true && this.state.socket) {
-            this.props.preloaderStopAction();
-        }
-
         return (
-                <Grid className={`Chat  ${classes.chat}`} container spacing={24}
-                      direction="row"
-                      justify="flex-start"
-                      alignItems="stretch"
-                >
-                    <Grid item xs={8} className={classes.messagesHistory}>
-                        {this.state.isConnected === true && this.state.socket ? <MessagesHistory socket={this.state.socket}/> : ''}
-                    </Grid>
-                    <Grid item xs={4} >
-                        {this.state.isConnected === true && this.state.socket ? <Members /> : ''}
-                    </Grid>
-                    {this.state.isConnected === true && this.state.socket ? <MessageArea /> : ''}
+            <Grid className={`Chat  ${classes.chat}`} container spacing={24}
+                  direction="row"
+                  justify="flex-start"
+                  alignItems="stretch"
+            >
+                <Grid item xs={8} className={classes.messagesHistory}>
+                    {this.state.isConnected === true && this.state.socket ?
+                        <MessagesHistory socket={this.state.socket}/> : ''}
                 </Grid>
+                <Grid item xs={4}>
+                    {this.state.isConnected === true && this.state.socket ? <Members/> : ''}
+                </Grid>
+                {this.state.isConnected === true && this.state.socket ? <MessageArea/> : ''}
+            </Grid>
         );
     }
 }

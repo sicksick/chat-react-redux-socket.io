@@ -5,14 +5,14 @@ import Drawer from "@material-ui/core/es/Drawer/Drawer";
 import Toolbar from "@material-ui/core/Toolbar/Toolbar";
 import IconButton from "@material-ui/core/es/IconButton/IconButton";
 import Icon from "@material-ui/core/Icon/Icon";
-import ListItemText from "../../../node_modules/@material-ui/core/ListItemText/ListItemText";
-import ListItem from "../../../node_modules/@material-ui/core/ListItem/ListItem";
-import List from "../../../node_modules/@material-ui/core/List/List";
-import ListItemIcon from "../../../node_modules/@material-ui/core/ListItemIcon/ListItemIcon";
 import Chat from '@material-ui/icons/Chat';
 import Home from '@material-ui/icons/Home';
-import Typography from "../../../node_modules/@material-ui/core/Typography/Typography";
 import {withStyles} from "@material-ui/core/es";
+import Typography from "@material-ui/core/Typography/Typography";
+import List from "@material-ui/core/List/List";
+import ListItem from "@material-ui/core/ListItem/ListItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText/ListItemText";
 
 const styles = {
     appBar: {

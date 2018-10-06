@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
-import Header from '../header/header';
+import Header from '../../components/header';
 import {Route} from "react-router-dom";
 import Chat from "../chat/chat";
-import Home from "../home/home";
+import Home from "../../components/home";
 import Grid from "@material-ui/core/es/Grid/Grid";
 import Paper from "@material-ui/core/es/Paper/Paper";
 import {withStyles} from "@material-ui/core/es";
