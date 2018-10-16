@@ -1,10 +1,10 @@
 import {Component} from "react";
-import Grid from "@material-ui/core/es/Grid/Grid";
+import Grid from "@material-ui/core/Grid/Grid";
 import Paper from "@material-ui/core/Paper/Paper";
 import TextField from "@material-ui/core/TextField/TextField";
 import Button from "@material-ui/core/Button/Button";
 import Icon from "@material-ui/core/Icon/Icon";
-import withStyles from "@material-ui/core/es/styles/withStyles";
+import withStyles from "@material-ui/core/styles/withStyles";
 import React from "react";
 
 const styles = theme => ({

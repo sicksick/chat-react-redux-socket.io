@@ -3,9 +3,9 @@ import Header from '../../components/header';
 import {Route} from "react-router-dom";
 import Chat from "../chat/chat";
 import Home from "../../components/home";
-import Grid from "@material-ui/core/es/Grid/Grid";
-import Paper from "@material-ui/core/es/Paper/Paper";
-import {withStyles} from "@material-ui/core/es";
+import Grid from "@material-ui/core/Grid/Grid";
+import Paper from "@material-ui/core/Paper/Paper";
+import {withStyles} from "@material-ui/core";
 import {connect} from "react-redux";
 import CircularProgress from "@material-ui/core/CircularProgress/CircularProgress";
 

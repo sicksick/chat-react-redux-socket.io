@@ -1,10 +1,9 @@
 import {Component} from "react";
-import Grid from "@material-ui/core/es/Grid/Grid";
-import withStyles from "@material-ui/core/es/styles/withStyles";
+import Grid from "@material-ui/core/Grid/Grid";
+import withStyles from "@material-ui/core/styles/withStyles";
 import React from "react";
 import MyMessage from './myMessage';
 import OtherMessage from './OtherMessage';
-import connect from "react-redux/es/connect/connect";
 
 const styles = theme => ({
 

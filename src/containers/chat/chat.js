@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
-import Grid from "@material-ui/core/es/Grid/Grid";
-import withStyles from "@material-ui/core/es/styles/withStyles";
+import withStyles from "@material-ui/core/styles/withStyles";
 import MessageArea from "../../components/messageArea"
 import Members from "../../components/members"
 import MessagesHistory from "../../components/messagesHistory"
@@ -8,6 +7,7 @@ import {setDataAfterAuth} from "../../actions/socket";
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 import {preloaderStartAction, preloaderStopAction} from "../../actions/common";
+import Grid from "@material-ui/core/Grid/Grid";
 
 const io = require('socket.io-client');
 
@@ -47,7 +47,9 @@ class Chat extends Component {
         super(props);
         this.state = {
             name: '',
-            isConnected: false
+            isConnected: false,
+            messagesHistory: [],
+            members: []
         };
     }
 
@@ -75,6 +77,7 @@ class Chat extends Component {
             if (this.state.isConnected === true && this.state.socket) {
                 this.props.preloaderStopAction();
             }
+            // this.state.socket.emit('my event')
         });
     }
 
@@ -95,11 +98,10 @@ class Chat extends Component {
                   alignItems="stretch"
             >
                 <Grid item xs={8} className={classes.messagesHistory}>
-                    {this.state.isConnected === true && this.state.socket ?
-                        <MessagesHistory socket={this.state.socket}/> : ''}
+                    <MessagesHistory messagesHistory={this.state.messagesHistory}/>
                 </Grid>
                 <Grid item xs={4}>
-                    {this.state.isConnected === true && this.state.socket ? <Members/> : ''}
+                    <Members members={this.state.members}/>
                 </Grid>
                 {this.state.isConnected === true && this.state.socket ? <MessageArea/> : ''}
             </Grid>
