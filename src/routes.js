@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import {HashRouter, Route, Switch} from 'react-router-dom';
-import App from './containers/app/app';
+import Index from './app';
 import {checkLoginRequest} from "./actions/auth";
-import connect from "react-redux/es/connect/connect";
+import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import {setTokenToSocketStateAction} from "./actions/socket";
 
@@ -30,7 +30,7 @@ const PrivateRoute = ({component: Component, data: data, ...rest}) => {
                 }
 
                 if (data.login === false && token) {
-                    checkLoginRequest(data.dispatch, token);
+                    // checkLoginRequest(data.dispatch, token);
                 }
                 data.dispatch(setTokenToSocketStateAction(token));
                 return (<Component {...props} />)
@@ -49,7 +49,7 @@ class RootRouter extends Component {
         return (
             <HashRouter>
                 <Switch>
-                    <PrivateRoute path='' component={App} data={this.props}/>
+                    <PrivateRoute path='' component={Index} data={this.props}/>
                 </Switch>
             </HashRouter>
         )

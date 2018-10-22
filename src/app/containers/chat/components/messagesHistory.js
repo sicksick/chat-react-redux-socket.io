@@ -32,10 +32,8 @@ class MessagesHistory extends Component {
                   direction="column"
                   justify="flex-start"
                   alignItems="stretch">
-
                 <MyMessage />
                 <OtherMessage />
-
             </Grid>
         );
     }

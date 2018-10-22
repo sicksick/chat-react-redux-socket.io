@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
-import Header from '../../components/header';
+import Header from './components/header';
 import {Route} from "react-router-dom";
-import Chat from "../chat/chat";
-import Home from "../../components/home";
+import Chat from "./containers/chat";
+import Home from "./components/home";
 import Grid from "@material-ui/core/Grid/Grid";
 import Paper from "@material-ui/core/Paper/Paper";
 import {withStyles} from "@material-ui/core";
@@ -55,7 +55,7 @@ function mapStateToProps(state) {
 
 @connect(mapStateToProps)
 @withStyles(styles)
-export default class App extends React.Component {
+export default class Index extends React.Component {
     constructor(props) {
         super(props);
         this.state = {open: false};

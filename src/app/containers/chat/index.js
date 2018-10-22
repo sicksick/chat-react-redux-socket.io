@@ -1,12 +1,11 @@
 import React, {Component} from 'react';
 import withStyles from "@material-ui/core/styles/withStyles";
-import MessageArea from "../../components/messageArea"
-import Members from "../../components/members"
-import MessagesHistory from "../../components/messagesHistory"
-import {setDataAfterAuth} from "../../actions/socket";
-import {bindActionCreators} from "redux";
+import MessageArea from "./components/messageArea"
+import Members from "./components/membersMain"
+import MessagesHistory from "./components/messagesHistory"
+import {setDataAfterAuth} from "../../../actions/socket";
 import {connect} from "react-redux";
-import {preloaderStartAction, preloaderStopAction} from "../../actions/common";
+import {preloaderStartAction, preloaderStopAction} from "../../../actions/common";
 import Grid from "@material-ui/core/Grid/Grid";
 
 const io = require('socket.io-client');
@@ -28,6 +27,7 @@ const styles = theme => ({
     }
 });
 
+// TODO make config file and add domain
 const SocketEndpoint = 'http://' + document.domain + ':8080';
 
 const mapDispatchToProps = function (dispatch) {
@@ -42,14 +42,16 @@ function mapStateToProps(state) {
     return state.socket;
 }
 
-class Chat extends Component {
+class Index extends Component {
     constructor(props) {
         super(props);
         this.state = {
             name: '',
             isConnected: false,
-            messagesHistory: [],
-            members: []
+            messages: [],
+            activeChat: {},
+            members: [],
+            participatedChat: []
         };
     }
 
@@ -69,15 +71,36 @@ class Chat extends Component {
             }
         });
 
-        socket.on('connect', () => {});
+        socket.on('connect', () => console.log('connect') );
 
         socket.on('auth', (data) => {
+            console.log('auth', data.data);
             this.props.setDataAfterAuth(data.data);
             this.setState({socket: socket, isConnected: true});
             if (this.state.isConnected === true && this.state.socket) {
                 this.props.preloaderStopAction();
             }
             // this.state.socket.emit('my event')
+        });
+
+        socket.on('chat:participated', (data) => {
+            console.log('chat:participated', data.data);
+            this.setState({
+                participatedChat: data.data,
+            });
+        });
+
+        socket.on('user:online', (data) => {
+            console.log('user:online', data.data);
+            this.setState({members: data.data});
+        });
+
+        socket.on('chat:message:history', (data) => {
+            console.log('chat:message:history', data.data);
+            this.setState({
+                messages: data.data.messages,
+                activeChat: data.data.chat
+            });
         });
     }
 
@@ -98,12 +121,12 @@ class Chat extends Component {
                   alignItems="stretch"
             >
                 <Grid item xs={8} className={classes.messagesHistory}>
-                    <MessagesHistory messagesHistory={this.state.messagesHistory}/>
+                    <MessagesHistory messages={this.state.messages} activeChat={this.state.chat}/>
                 </Grid>
                 <Grid item xs={4}>
-                    <Members members={this.state.members}/>
+                    <Members membersOnline={this.state.members} participatedChat={this.state.participatedChat} />
                 </Grid>
-                {this.state.isConnected === true && this.state.socket ? <MessageArea/> : ''}
+                {this.state.isConnected === true && this.state.socket ? <MessageArea chactiveChatat={this.state.chat}/> : ''}
             </Grid>
         );
     }
@@ -112,4 +135,4 @@ class Chat extends Component {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(withStyles(styles)(Chat));
+)(withStyles(styles)(Index));

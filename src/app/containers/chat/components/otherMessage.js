@@ -32,9 +32,9 @@ class OtherMessage extends Component {
 
         return (
             <Grid container className={`OtherMessage`}
-                direction="column"
-                justify="flex-start"
-                alignItems="flex-end"
+                  direction="column"
+                  justify="flex-start"
+                  alignItems="flex-end"
             >
                 <Grid container className={classes.gridItem}>
                     <Grid container
@@ -43,7 +43,7 @@ class OtherMessage extends Component {
                           justify="space-between"
                           alignItems="baseline"
                     >
-                        <Grid item xs={1} >12:35</Grid>
+                        <Grid item xs={1}>12:35</Grid>
                         <Grid item xs={11}>
                             <Paper className={classes.paperOther}>
                                 <Grid container
@@ -55,17 +55,13 @@ class OtherMessage extends Component {
                                         Other message
                                     </Grid>
                                     <Grid item xs={1}>
-                                        <Avatar >
-                                            <AccountCircle style={{ fontSize: 16 }}  />
+                                        <Avatar>
+                                            <AccountCircle style={{fontSize: 16}}/>
                                         </Avatar>
                                     </Grid>
-
-
                                 </Grid>
-
                             </Paper>
                         </Grid>
-
                     </Grid>
                 </Grid>
             </Grid>
