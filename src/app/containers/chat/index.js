@@ -42,7 +42,9 @@ function mapStateToProps(state) {
     return state.socket;
 }
 
-class Index extends Component {
+@connect(mapStateToProps, mapDispatchToProps)
+@withStyles(styles)
+export default class Index extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -131,8 +133,3 @@ class Index extends Component {
         );
     }
 }
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(withStyles(styles)(Index));

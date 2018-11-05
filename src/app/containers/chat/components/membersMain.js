@@ -1,24 +1,18 @@
-import {Component} from "react";
 import Grid from "@material-ui/core/Grid/Grid";
 import withStyles from "@material-ui/core/styles/withStyles";
 import React from "react";
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import Avatar from '@material-ui/core/Avatar';
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import Divider from '@material-ui/core/Divider';
 import AppBar from "@material-ui/core/AppBar/AppBar";
 import Tabs from "@material-ui/core/Tabs/Tabs";
 import Tab from "@material-ui/core/Tab/Tab";
 import SwipeableViews from 'react-swipeable-views';
 import Typography from "@material-ui/core/Typography/Typography";
 import * as PropTypes from "prop-types";
-
+import connect from "react-redux/es/connect/connect";
+import MembersUsers from "./membersUsers";
 
 function TabContainer({children, dir}) {
     return (
-        <Typography component="div" dir={dir} style={{padding: 8 * 3}}>
+        <Typography component="div" dir={dir} >
             {children}
         </Typography>
     );
@@ -30,19 +24,25 @@ TabContainer.propTypes = {
 };
 
 const styles = theme => ({
-    members_list: {
-        width: "100%"
-    },
     root: {
         backgroundColor: theme.palette.background.paper,
-        width: 500,
+        width: '100%',
     },
 });
 
-class MembersMain extends React.Component {
-    state = {
-        value: 0,
-    };
+function mapStateToProps(state) {
+    return state.socket;
+}
+
+@connect(mapStateToProps)
+@withStyles(styles, {withTheme: true})
+export default class MembersMain extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            value: 0
+        };
+    }
 
     handleChange = (event, value) => {
         this.setState({value});
@@ -53,7 +53,7 @@ class MembersMain extends React.Component {
     };
 
     render() {
-        const {classes, theme} = this.props;
+        const {classes, theme, membersOnline} = this.props;
 
         return (
             <Grid className={`Members`}
@@ -76,39 +76,14 @@ class MembersMain extends React.Component {
                     axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
                     index={this.state.value}
                     onChangeIndex={this.handleChangeIndex}
+                    style={{width: '100%'}}
                 >
-                    <TabContainer dir={theme.direction}>Item One</TabContainer>
+                    <TabContainer dir={theme.direction} >
+                        <MembersUsers members={membersOnline}/>
+                    </TabContainer>
                     <TabContainer dir={theme.direction}>Item Two</TabContainer>
                 </SwipeableViews>
-                <List className={classes.members_list}>
-                    <ListItem>
-                        <Avatar>
-                            <AccountCircle/>
-                        </Avatar>
-                        <ListItemText primary="Andrey" secondary="online"/>
-                    </ListItem>
-                    <li>
-                        <Divider inset/>
-                    </li>
-                    <ListItem>
-                        <Avatar>
-                            <AccountCircle/>
-                        </Avatar>
-                        <ListItemText primary="Vova" secondary="offline"/>
-                    </ListItem>
-                    <li>
-                        <Divider inset/>
-                    </li>
-                    <ListItem>
-                        <Avatar>
-                            <AccountCircle/>
-                        </Avatar>
-                        <ListItemText primary="Maxim" secondary="online"/>
-                    </ListItem>
-                </List>
             </Grid>
         );
     }
 }
-
-export default withStyles(styles, {withTheme: true})(MembersMain);
