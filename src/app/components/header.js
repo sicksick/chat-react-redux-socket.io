@@ -1,4 +1,3 @@
-import {Component} from "react";
 import React from "react";
 import AppBar from "@material-ui/core/AppBar/AppBar";
 import Drawer from "@material-ui/core/Drawer/Drawer";
@@ -8,7 +7,6 @@ import Icon from "@material-ui/core/Icon/Icon";
 import Chat from '@material-ui/icons/Chat';
 import Home from '@material-ui/icons/Home';
 import {withStyles} from "@material-ui/core";
-import Typography from "@material-ui/core/Typography/Typography";
 import List from "@material-ui/core/List/List";
 import ListItem from "@material-ui/core/ListItem/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon/ListItemIcon";
@@ -27,7 +25,7 @@ const styles = {
     },
 };
 
-class Header extends Component {
+class Header extends React.Component {
     constructor(props) {
         super(props);
         this.state = {open: false};
@@ -48,9 +46,7 @@ class Header extends Component {
                         <IconButton color="inherit" aria-label="reorder" onClick={this.handleToggle}>
                             <Icon>reorder</Icon>
                         </IconButton>
-                        <Typography variant="title" color="inherit" className='flex'>
-                            React Redux Socket.IO Webpack 4 Babel
-                        </Typography>
+                        <h2 color="inherit" className='flex'> React Redux Socket.IO Webpack 4 Babel </h2>
                     </Toolbar>
                 </AppBar>
                 <Drawer open={this.state.open} onClose={this.handleToggle}>

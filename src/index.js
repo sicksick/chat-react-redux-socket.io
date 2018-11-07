@@ -12,6 +12,17 @@ import red from '@material-ui/core/colors/red';
 const store = configureStore();
 
 const theme = createMuiTheme({
+    typography: {
+        fontFamily: [
+            "Roboto",
+            "-apple-system",
+            "BlinkMacSystemFont",
+            "Segoe UI",
+            "Arial",
+            "sans-serif"
+        ].join(","),
+        useNextVariants: true
+    },
     palette: {
         primary: indigo,
         secondary: pink,

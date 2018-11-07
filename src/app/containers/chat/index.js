@@ -1,12 +1,13 @@
 import React, {Component} from 'react';
 import withStyles from "@material-ui/core/styles/withStyles";
 import MessageArea from "./components/messageArea"
-import Members from "./components/membersMain"
+import MembersMain from "./components/membersMain"
 import MessagesHistory from "./components/messagesHistory"
 import {setDataAfterAuth} from "../../../actions/socket";
 import {connect} from "react-redux";
 import {preloaderStartAction, preloaderStopAction} from "../../../actions/common";
 import Grid from "@material-ui/core/Grid/Grid";
+import PropTypes, {bool, string} from 'prop-types';
 
 const io = require('socket.io-client');
 
@@ -57,6 +58,12 @@ export default class Index extends Component {
         };
     }
 
+    static propTypes = {
+        pizda: PropTypes.bool,
+        open: PropTypes.bool,
+        onClose: PropTypes.func,
+    };
+
     componentWillMount() {
         this.props.preloaderStartAction();
     }
@@ -92,8 +99,8 @@ export default class Index extends Component {
             });
         });
 
-        socket.on('user:online', (data) => {
-            console.log('user:online', data.data);
+        socket.on('user:all', (data) => {
+            console.log('user:all', data.data);
             this.setState({members: data.data});
         });
 
@@ -126,7 +133,7 @@ export default class Index extends Component {
                     <MessagesHistory messages={this.state.messages} activeChat={this.state.chat}/>
                 </Grid>
                 <Grid item xs={4}>
-                    <Members membersOnline={this.state.members} participatedChat={this.state.participatedChat} />
+                    <MembersMain members={this.state.members} participatedChat={this.state.participatedChat} />
                 </Grid>
                 {this.state.isConnected === true && this.state.socket ? <MessageArea chactiveChatat={this.state.chat}/> : ''}
             </Grid>
