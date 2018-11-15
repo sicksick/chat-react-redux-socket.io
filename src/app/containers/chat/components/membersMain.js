@@ -6,6 +6,9 @@ import MembersUsers from "./membersUsers";
 import MembersUsersDialog from "./membersUsersDialog";
 import {withStyles} from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
+import MembersChat from "./membersChat";
+
+
 
 const styles = theme => ({
     root: {
@@ -24,7 +27,7 @@ export default class MembersMain extends React.Component {
 
     state = {
         value: 0,
-        open: true,
+        open: false,
         selectedValue: null,
     };
 
@@ -47,17 +50,19 @@ export default class MembersMain extends React.Component {
     };
 
     render() {
-        const {classes, theme, members} = this.props;
+        const {classes, theme, members, membersOnline, participatedChat} = this.props;
 
         return (
             <Grid className={`Members`}
                   container
                   direction="row"
                   alignItems="stretch">
+
                 <Button onClick={this.handleClickOpen} mini variant="fab" color="primary" aria-label="Add"
                         className={classes.button}>
                     <AddIcon/>
                 </Button>
+                <MembersChat chats={participatedChat}/>
 
                 <MembersUsersDialog
                     open={this.state.open}

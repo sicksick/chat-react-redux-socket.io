@@ -84,9 +84,10 @@ export default class Index extends Component {
 
         socket.on('auth', (data) => {
             console.log('auth', data.data);
-            this.props.setDataAfterAuth(data.data);
             this.setState({socket: socket, isConnected: true});
             if (this.state.isConnected === true && this.state.socket) {
+                data.data.socket  = socket;
+                this.props.setDataAfterAuth(data.data);
                 this.props.preloaderStopAction();
             }
             // this.state.socket.emit('my event')
@@ -129,10 +130,10 @@ export default class Index extends Component {
                   justify="flex-start"
                   alignItems="stretch"
             >
-                <Grid item xs={8} className={classes.messagesHistory}>
+                <Grid item xs={9} className={classes.messagesHistory}>
                     <MessagesHistory messages={this.state.messages} activeChat={this.state.chat}/>
                 </Grid>
-                <Grid item xs={4}>
+                <Grid item xs={3}>
                     <MembersMain members={this.state.members} participatedChat={this.state.participatedChat} />
                 </Grid>
                 {this.state.isConnected === true && this.state.socket ? <MessageArea chactiveChatat={this.state.chat}/> : ''}

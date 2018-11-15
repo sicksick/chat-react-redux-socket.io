@@ -4,7 +4,8 @@ const initialState = {
     login: false,
     user: {},
     token: null,
-    roles: []
+    roles: [],
+    socket: null
 };
 
 export default function socket(state = initialState, action) {
@@ -15,6 +16,10 @@ export default function socket(state = initialState, action) {
 
         case types.SET_DATA_AFTER_AUTH:
             return {...state, ...action.payload};
+
+        case types.CHANGE_CHAT:
+            state.socket.emit('chat:change', {id: action.payload.chat});
+            return state;
 
         default:
             return state;
