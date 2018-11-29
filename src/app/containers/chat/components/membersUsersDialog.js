@@ -36,6 +36,7 @@ export default class MembersUsersDialog extends React.Component {
     static propTypes = {
         open: PropTypes.bool.isRequired,
         onClose: PropTypes.func.isRequired,
+        createNewChat: PropTypes.func.isRequired,
         members: PropTypes.array.isRequired,
     };
 
@@ -47,16 +48,21 @@ export default class MembersUsersDialog extends React.Component {
         this.props.onClose(value);
     };
 
+    createNewChat = user => {
+        this.props.createNewChat(user);
+        this.handleClose();
+    };
+
     render() {
-        const { classes, onClose, selectedValue, members, ...other} = this.props;
+        const { classes, onClose, selectedValue, members, createNewChat, ...other} = this.props;
 
         return (
             <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" {...other}>
                 <DialogTitle id="simple-dialog-title">Searching users</DialogTitle>
                 <div>
-                    <List>
+                    <List component="nav">
                         {members.map(user => (
-                            <ListItem key={user.id}>
+                            <ListItem key={user.id} button onClick={this.createNewChat.bind(null, user)}>
                                 <ListItemAvatar>
                                     <Avatar src={user.image} className={classes.avatar}/>
                                 </ListItemAvatar>
@@ -65,14 +71,6 @@ export default class MembersUsersDialog extends React.Component {
                                     secondary={user.firstname ? user.email : ''}/>
                             </ListItem>
                         ))}
-                        <ListItem button onClick={() => this.handleListItemClick('addAccount')}>
-                            <ListItemAvatar>
-                                <Avatar>
-                                    <AddIcon />
-                                </Avatar>
-                            </ListItemAvatar>
-                            <ListItemText primary="add account" />
-                        </ListItem>
                     </List>
                 </div>
             </Dialog>

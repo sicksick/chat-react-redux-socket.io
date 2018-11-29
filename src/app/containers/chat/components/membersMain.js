@@ -1,14 +1,11 @@
 import Grid from "@material-ui/core/Grid/Grid";
 import React from "react";
 import AddIcon from '@material-ui/icons/Add';
-import connect from "react-redux/es/connect/connect";
-import MembersUsers from "./membersUsers";
 import MembersUsersDialog from "./membersUsersDialog";
 import {withStyles} from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
 import MembersChat from "./membersChat";
-
-
+import Fab from "@material-ui/core/Fab/Fab";
+import PropTypes from "prop-types";
 
 const styles = theme => ({
     root: {
@@ -17,11 +14,6 @@ const styles = theme => ({
     },
 });
 
-function mapStateToProps(state) {
-    return state.socket;
-}
-
-@connect(mapStateToProps)
 @withStyles(styles, {withTheme: true})
 export default class MembersMain extends React.Component {
 
@@ -31,12 +23,12 @@ export default class MembersMain extends React.Component {
         selectedValue: null,
     };
 
-    handleChange = (event, value) => {
-        this.setState({value});
-    };
-
-    handleChangeIndex = index => {
-        this.setState({value: index});
+    static propTypes = {
+        classes: PropTypes.object.isRequired,
+        createNewChat: PropTypes.func.isRequired,
+        onChangeChat: PropTypes.func.isRequired,
+        participatedChat: PropTypes.array.isRequired,
+        members: PropTypes.array.isRequired,
     };
 
     handleClickOpen = () => {
@@ -50,7 +42,7 @@ export default class MembersMain extends React.Component {
     };
 
     render() {
-        const {classes, theme, members, membersOnline, participatedChat} = this.props;
+        const {classes, members, participatedChat} = this.props;
 
         return (
             <Grid className={`Members`}
@@ -58,15 +50,16 @@ export default class MembersMain extends React.Component {
                   direction="row"
                   alignItems="stretch">
 
-                <Button onClick={this.handleClickOpen} mini variant="fab" color="primary" aria-label="Add"
+                <Fab onClick={this.handleClickOpen} size="small" color="secondary" aria-label="Add"
                         className={classes.button}>
                     <AddIcon/>
-                </Button>
-                <MembersChat chats={participatedChat}/>
+                </Fab>
+                <MembersChat chats={participatedChat} onChangeChat={this.props.onChangeChat}/>
 
                 <MembersUsersDialog
                     open={this.state.open}
                     onClose={this.handleClose}
+                    createNewChat={this.props.createNewChat}
                     members={members}
                 />
             </Grid>

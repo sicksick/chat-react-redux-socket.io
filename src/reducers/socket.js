@@ -19,7 +19,11 @@ export default function socket(state = initialState, action) {
 
         case types.CHANGE_CHAT:
             state.socket.emit('chat:change', {id: action.payload.chat});
-            return state;
+            return {...state};
+
+        case types.CREATE_CHAT:
+            state.socket.emit('chat:create', {id: action.payload.user_id});
+            return {...state};
 
         default:
             return state;

@@ -9,7 +9,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 
 const styles = theme => ({
     paperMy: {
-        padding: '10px',
+        padding: '4px',
         height: '100%',
         color: theme.palette.text.secondary,
         backgroundColor: '#8ebba4',

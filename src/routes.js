@@ -30,6 +30,7 @@ const PrivateRoute = ({component: Component, data: data, ...rest}) => {
                 }
 
                 if (data.login === false && token) {
+                    // TODO need uncomment
                     // checkLoginRequest(data.dispatch, token);
                 }
                 data.dispatch(setTokenToSocketStateAction(token));

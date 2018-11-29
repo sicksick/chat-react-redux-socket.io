@@ -7,15 +7,15 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Avatar from '@material-ui/core/Avatar';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import connect from "react-redux/es/connect/connect";
-import {changeChat, setDataAfterAuth} from "../../../../actions/socket";
 import {preloaderStartAction, preloaderStopAction} from "../../../../actions/common";
+import PropTypes from "prop-types";
 
 const styles = theme => ({
     membersList: {
         width: "100%"
     },
     chatItem: {
-      borderLeft: "none"
+        borderLeft: "none"
     },
     chatActive: {
         borderRadius: '8px',
@@ -25,44 +25,37 @@ const styles = theme => ({
     chatInactive: {
         cursor: 'pointer'
     },
-    MembersChat:{
+    MembersChat: {
         width: '100%'
     }
 });
 
-const mapDispatchToProps = function (dispatch) {
-    return {
-        changeChat: (data) => dispatch(changeChat(data)),
-    };
-};
 
 @withStyles(styles)
-@connect(null, mapDispatchToProps)
 export default class MembersChat extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            value: 0
-        };
 
-    }
+    state = {
+        value: 0
+    };
 
-    changeChat(chat) {
-        if (chat.active === true){
-            return
-        }
+    static propTypes = {
+        classes: PropTypes.object.isRequired,
+        onChangeChat: PropTypes.func.isRequired,
+        chats: PropTypes.array.isRequired,
+    };
 
-        console.log(chat);
-        this.props.changeChat(chat.chat_id);
-    }
+    onChangeChat = chat => {
+        this.props.onChangeChat(chat)
+    };
 
     memberChatsList = (chats, classes) => {
         if (chats.length === 0) {
             return ('');
         }
         const listItems = chats.map((chat) =>
-            <span key={chat.chat_id.toString()} onClick={this.changeChat.bind(this,chat)}>
-                <ListItem className={classes.chatItem + ' ' + (chat.active === true ? classes.chatActive: classes.chatInactive)}>
+            <span key={chat.chat_id.toString()} onClick={this.onChangeChat.bind(this, chat)}>
+                <ListItem
+                    className={classes.chatItem + ' ' + (chat.active === true ? classes.chatActive : classes.chatInactive)}>
                     <Avatar>
                         <AccountCircle/>
                     </Avatar>

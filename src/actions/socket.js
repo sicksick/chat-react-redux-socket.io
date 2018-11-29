@@ -36,6 +36,15 @@ export const changeChat = (chat_id) => {
     }
 };
 
+export const createChat = (user_id) => {
+    return {
+        type: types.CREATE_CHAT,
+        payload: {
+            user_id: user_id
+        }
+    }
+};
+
 export const checkLoginSuccess =  (status, data) => {
     return {
         type: types.CHECK_LOGIN_SUCCESS,

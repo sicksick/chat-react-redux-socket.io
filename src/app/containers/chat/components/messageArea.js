@@ -50,7 +50,7 @@ class messageArea extends Component {
                         onChange={this.handleChange}/>
                 </Grid>
                 <Grid item xs={2}>
-                    <Button variant="extendedFab" color="primary" className={classes.chatSendButton} fullWidth
+                    <Button variant="contained" size="large" color="primary" className={classes.chatSendButton}
                             aria-label="Delete">
                         Send &nbsp;
                         <Icon>send</Icon>

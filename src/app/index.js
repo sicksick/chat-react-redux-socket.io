@@ -56,10 +56,10 @@ function mapStateToProps(state) {
 @connect(mapStateToProps)
 @withStyles(styles)
 export default class Index extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {open: false};
-    }
+
+    state = {
+        open: false
+    };
 
     render() {
         const classes = this.props.classes;

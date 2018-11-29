@@ -3,7 +3,7 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import MessageArea from "./components/messageArea"
 import MembersMain from "./components/membersMain"
 import MessagesHistory from "./components/messagesHistory"
-import {setDataAfterAuth} from "../../../actions/socket";
+import {changeChat, createChat, setDataAfterAuth} from "../../../actions/socket";
 import {connect} from "react-redux";
 import {preloaderStartAction, preloaderStopAction} from "../../../actions/common";
 import Grid from "@material-ui/core/Grid/Grid";
@@ -35,7 +35,9 @@ const mapDispatchToProps = function (dispatch) {
     return {
         setDataAfterAuth: (data) => dispatch(setDataAfterAuth(data)),
         preloaderStartAction: () => dispatch(preloaderStartAction()),
-        preloaderStopAction: () => dispatch(preloaderStopAction())
+        preloaderStopAction: () => dispatch(preloaderStopAction()),
+        changeChat: (data) => dispatch(changeChat(data)),
+        createChat: (data) => dispatch(createChat(data))
     };
 };
 
@@ -46,23 +48,16 @@ function mapStateToProps(state) {
 @connect(mapStateToProps, mapDispatchToProps)
 @withStyles(styles)
 export default class Index extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            name: '',
-            isConnected: false,
-            messages: [],
-            activeChat: {},
-            members: [],
-            participatedChat: []
-        };
-    }
-
-    static propTypes = {
-        pizda: PropTypes.bool,
-        open: PropTypes.bool,
-        onClose: PropTypes.func,
+    state = {
+        name: '',
+        isConnected: false,
+        messages: [],
+        activeChat: {},
+        members: [],
+        participatedChat: [],
+        activeChatId: null
     };
+
 
     componentWillMount() {
         this.props.preloaderStartAction();
@@ -80,13 +75,13 @@ export default class Index extends Component {
             }
         });
 
-        socket.on('connect', () => console.log('connect') );
+        socket.on('connect', () => console.log('connect'));
 
         socket.on('auth', (data) => {
             console.log('auth', data.data);
             this.setState({socket: socket, isConnected: true});
             if (this.state.isConnected === true && this.state.socket) {
-                data.data.socket  = socket;
+                data.data.socket = socket;
                 this.props.setDataAfterAuth(data.data);
                 this.props.preloaderStopAction();
             }
@@ -95,6 +90,17 @@ export default class Index extends Component {
 
         socket.on('chat:participated', (data) => {
             console.log('chat:participated', data.data);
+
+            // Если чат уже был выбран, то не менять его
+            if (this.state.activeChatId) {
+                data.data.forEach(item => {
+                    delete item.active;
+                    if (item.chat_id === this.state.activeChatId) {
+                        item.active = true;
+                    }
+                });
+            }
+
             this.setState({
                 participatedChat: data.data,
             });
@@ -114,7 +120,22 @@ export default class Index extends Component {
         });
     }
 
-    componentWillUnmount () {
+    createNewChat = user => {
+        console.log(user);
+        this.props.createChat(user.id)
+    };
+
+    onChangeChat = chat => {
+        if (chat.active === true) {
+            return
+        }
+        this.setState({
+            activeChatId: chat.chat_id,
+        });
+        this.props.changeChat(chat.chat_id);
+    };
+
+    componentWillUnmount() {
         this.setState({
             socket: null,
             isConnected: false
@@ -134,9 +155,14 @@ export default class Index extends Component {
                     <MessagesHistory messages={this.state.messages} activeChat={this.state.chat}/>
                 </Grid>
                 <Grid item xs={3}>
-                    <MembersMain members={this.state.members} participatedChat={this.state.participatedChat} />
+                    <MembersMain createNewChat={this.createNewChat}
+                                 members={this.state.members}
+                                 participatedChat={this.state.participatedChat}
+                                 onChangeChat={this.onChangeChat}
+                    />
                 </Grid>
-                {this.state.isConnected === true && this.state.socket ? <MessageArea chactiveChatat={this.state.chat}/> : ''}
+                {this.state.isConnected === true && this.state.socket ?
+                    <MessageArea chactiveChatat={this.state.chat}/> : ''}
             </Grid>
         );
     }
