@@ -36,11 +36,11 @@ export const changeChat = (chat_id) => {
     }
 };
 
-export const createChat = (user_id) => {
+export const createChat = (users_id) => {
     return {
         type: types.CREATE_CHAT,
         payload: {
-            user_id: user_id
+            users_id: users_id
         }
     }
 };

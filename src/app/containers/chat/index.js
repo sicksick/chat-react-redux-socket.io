@@ -91,16 +91,6 @@ export default class Index extends Component {
         socket.on('chat:participated', (data) => {
             console.log('chat:participated', data.data);
 
-            // Если чат уже был выбран, то не менять его
-            if (this.state.activeChatId) {
-                data.data.forEach(item => {
-                    delete item.active;
-                    if (item.chat_id === this.state.activeChatId) {
-                        item.active = true;
-                    }
-                });
-            }
-
             this.setState({
                 participatedChat: data.data,
             });
@@ -113,6 +103,7 @@ export default class Index extends Component {
 
         socket.on('chat:message:history', (data) => {
             console.log('chat:message:history', data.data);
+
             this.setState({
                 messages: data.data.messages,
                 activeChat: data.data.chat
@@ -120,9 +111,9 @@ export default class Index extends Component {
         });
     }
 
-    createNewChat = user => {
-        console.log(user);
-        this.props.createChat(user.id)
+    createNewChat = users => {
+        console.log(users);
+        this.props.createChat(users)
     };
 
     onChangeChat = chat => {
@@ -146,7 +137,9 @@ export default class Index extends Component {
         const classes = this.props.classes;
 
         return (
-            <Grid className={`Chat  ${classes.chat}`} container spacing={24}
+            <Grid className={`Chat  ${classes.chat}`}
+                  container
+                  spacing={24}
                   direction="row"
                   justify="flex-start"
                   alignItems="stretch"
@@ -157,6 +150,7 @@ export default class Index extends Component {
                 <Grid item xs={3}>
                     <MembersMain createNewChat={this.createNewChat}
                                  members={this.state.members}
+                                 activeChat={this.state.activeChat}
                                  participatedChat={this.state.participatedChat}
                                  onChangeChat={this.onChangeChat}
                     />

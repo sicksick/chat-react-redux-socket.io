@@ -1,6 +1,7 @@
 import Grid from "@material-ui/core/Grid/Grid";
 import React from "react";
-import AddIcon from '@material-ui/icons/Add';
+import PersonAdd from '@material-ui/icons/PersonAdd';
+import GroupAdd from '@material-ui/icons/GroupAdd';
 import MembersUsersDialog from "./membersUsersDialog";
 import {withStyles} from '@material-ui/core/styles';
 import MembersChat from "./membersChat";
@@ -12,6 +13,9 @@ const styles = theme => ({
         backgroundColor: theme.palette.background.paper,
         width: '100%',
     },
+    buttonClickOpen: {
+        marginRight: '5px'
+    }
 });
 
 @withStyles(styles, {withTheme: true})
@@ -24,6 +28,7 @@ export default class MembersMain extends React.Component {
     };
 
     static propTypes = {
+        activeChat: PropTypes.object.isRequired,
         classes: PropTypes.object.isRequired,
         createNewChat: PropTypes.func.isRequired,
         onChangeChat: PropTypes.func.isRequired,
@@ -31,18 +36,18 @@ export default class MembersMain extends React.Component {
         members: PropTypes.array.isRequired,
     };
 
-    handleClickOpen = () => {
+    handleClickOpen = usersDialogType => {
         this.setState({
-            open: true,
+            open: true
         });
     };
 
     handleClose = value => {
-        this.setState({selectedValue: value, open: false});
+        this.setState({open: false});
     };
 
     render() {
-        const {classes, members, participatedChat} = this.props;
+        const {classes, members, participatedChat, activeChat} = this.props;
 
         return (
             <Grid className={`Members`}
@@ -51,10 +56,10 @@ export default class MembersMain extends React.Component {
                   alignItems="stretch">
 
                 <Fab onClick={this.handleClickOpen} size="small" color="secondary" aria-label="Add"
-                        className={classes.button}>
-                    <AddIcon/>
+                        className={classes.buttonClickOpen}>
+                    <PersonAdd/>
                 </Fab>
-                <MembersChat chats={participatedChat} onChangeChat={this.props.onChangeChat}/>
+                <MembersChat chats={participatedChat} activeChat={activeChat} onChangeChat={this.props.onChangeChat}/>
 
                 <MembersUsersDialog
                     open={this.state.open}
