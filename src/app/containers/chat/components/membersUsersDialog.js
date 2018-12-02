@@ -139,7 +139,9 @@ export default class MembersUsersDialog extends React.Component {
 
         return (
             <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" {...other}>
-                <DialogTitle id="simple-dialog-title">Searching users</DialogTitle>
+                <DialogTitle id="simple-dialog-title">
+                    {members.length > 0 ? 'Searching users' : 'Users not found'}
+                </DialogTitle>
                 <div>
                     {this.state.checkedUsers.length > 0 ? this.memberChipsList(classes) : ''}
                 </div>
