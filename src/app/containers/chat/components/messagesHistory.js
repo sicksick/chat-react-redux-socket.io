@@ -2,29 +2,28 @@ import {Component} from "react";
 import Grid from "@material-ui/core/Grid/Grid";
 import withStyles from "@material-ui/core/styles/withStyles";
 import React from "react";
-import MyMessage from './myMessage';
-import OtherMessage from './OtherMessage';
+import PropTypes from "prop-types";
+import MyMessage from "./myMessage";
+import OtherMessage from "./otherMessage";
 
 const styles = theme => ({
-
+    time: {
+        marginTop: '6px'
+    }
 });
 
+@withStyles(styles)
+export default class MessagesHistory extends Component {
 
-class MessagesHistory extends Component {
-    constructor(props) {
-        super(props);
-        this.state;
-    }
-
-    componentDidMount() {
-        if (this.props.socket == null) {
-            return
-        }
-        this.props.socket;
-    }
+    static propTypes = {
+        activeChat: PropTypes.object.isRequired,
+        user: PropTypes.object.isRequired,
+        classes: PropTypes.object,
+        messages: PropTypes.array.isRequired,
+    };
 
     render() {
-        const classes = this.props.classes;
+        const {classes, messages, activeChat, user} = this.props;
 
         return (
             <Grid className='MessagesHistory'
@@ -32,11 +31,13 @@ class MessagesHistory extends Component {
                   direction="column"
                   justify="flex-start"
                   alignItems="stretch">
-                <MyMessage />
-                <OtherMessage />
+                {messages.map(message => {
+                    if (message.user_id === user.id)  {
+                        return (<MyMessage key={message.id.toString()} message={message} />)
+                    }
+                    return (<OtherMessage  key={message.id.toString()} message={message} />)
+                })}
             </Grid>
         );
     }
 }
-
-export default withStyles(styles)(MessagesHistory);

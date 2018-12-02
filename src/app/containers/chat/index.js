@@ -145,7 +145,11 @@ export default class Index extends Component {
                   alignItems="stretch"
             >
                 <Grid item xs={9} className={classes.messagesHistory}>
-                    <MessagesHistory messages={this.state.messages} activeChat={this.state.chat}/>
+                    <MessagesHistory
+                        messages={this.state.messages}
+                        activeChat={this.state.activeChat}
+                        user={this.props.user}
+                    />
                 </Grid>
                 <Grid item xs={3}>
                     <MembersMain createNewChat={this.createNewChat}

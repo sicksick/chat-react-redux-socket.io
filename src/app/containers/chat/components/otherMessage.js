@@ -5,6 +5,7 @@ import React from "react";
 import Paper from "@material-ui/core/Paper/Paper";
 import Avatar from "@material-ui/core/Avatar";
 import AccountCircle from "@material-ui/icons/AccountCircle";
+import PropTypes from "prop-types";
 
 
 const styles = theme => ({
@@ -17,18 +18,38 @@ const styles = theme => ({
     gridItem: {
         width: '100%',
         marginBottom: 6,
+    },
+    time: {
+        marginTop: '8px',
+        marginLeft: '15px',
+    },
+    messageBox: {
+        color: theme.palette.text.primary
+    },
+    userName: {
+        color: theme.palette.text.secondary
     }
 });
 
-class OtherMessage extends Component {
+@withStyles(styles)
+export default class OtherMessage extends Component {
     constructor(props) {
         super(props);
         this.state = {}
     }
 
+    static propTypes = {
+        classes: PropTypes.object,
+        message: PropTypes.object.isRequired,
+    };
+
+    getTime = (dateString, classes) => {
+        let [date, time] = dateString.split(' ');
+        return (<div className={classes.time}>{date}<br/>{time.substr(0, 5)}</div>)
+    };
 
     render() {
-        const classes = this.props.classes;
+        const {classes, message} = this.props;
 
         return (
             <Grid container className={`OtherMessage`}
@@ -41,23 +62,22 @@ class OtherMessage extends Component {
                           spacing={24}
                           direction="row"
                           justify="space-between"
-                          alignItems="baseline"
+                          alignItems="flex-start"
                     >
-                        <Grid item xs={1}>12:35</Grid>
-                        <Grid item xs={11}>
+                        <Grid item xs={2}>{this.getTime(message.created_at, classes)}</Grid>
+                        <Grid item xs={10}>
                             <Paper className={classes.paperOther}>
                                 <Grid container
                                       direction="row"
                                       justify="flex-start"
-                                      alignItems="baseline"
+                                      alignItems="flex-start"
                                 >
                                     <Grid item xs>
-                                        Other message
+                                        <div className={classes.userName}>{message.user_name ? message.user_name : message.email}</div>
+                                        <div className={classes.messageBox}>{message.message_text}</div>
                                     </Grid>
                                     <Grid item xs={1}>
-                                        <Avatar>
-                                            <AccountCircle style={{fontSize: 16}}/>
-                                        </Avatar>
+                                        {message.user_image ? <Avatar src={message.user_image}/> : <Avatar> <AccountCircle/> </Avatar> }
                                     </Grid>
                                 </Grid>
                             </Paper>
@@ -68,5 +88,3 @@ class OtherMessage extends Component {
         );
     }
 }
-
-export default withStyles(styles)(OtherMessage);

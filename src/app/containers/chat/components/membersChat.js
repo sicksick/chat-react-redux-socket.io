@@ -62,7 +62,7 @@ export default class MembersChat extends React.Component {
                 <ListItem
                     className={classes.chatItem + ' ' + (chat.chat_id === activeChat.chat_id ? classes.chatActive : classes.chatInactive)}>
                         {chat.chat_image ? <Avatar src={chat.chat_image}/> : <Avatar> <AccountCircle/> </Avatar> }
-                    <ListItemText primary={chat.name} secondary={chat.permission ? 'Role: ' + chat.permission: ''}/>
+                    <ListItemText primary={chat.chat_name} secondary={chat.permission ? 'Role: ' + chat.permission: ''}/>
                 </ListItem>
             </span>
         );
