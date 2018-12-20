@@ -4,9 +4,9 @@ import common from './common';
 import socket from './socket';
 
 const rootReducer = combineReducers({
-    auth,
-    common,
-    socket
+  auth,
+  common,
+  socket
 });
 
 export default rootReducer;

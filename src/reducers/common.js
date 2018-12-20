@@ -1,24 +1,24 @@
-import * as types from "../constants/ActionTypes";
+import * as types from '../constants/ActionTypes';
 
 const initialState = {
-    preload: false,
+  preload: false
 };
 
 export default function common(state = initialState, action) {
-    switch (action.type) {
-        case types.PRELOADER_START:
-            return {
-                ...state,
-                preload: true
-            };
+  switch (action.type) {
+    case types.PRELOADER_START:
+      return {
+        ...state,
+        preload: true
+      };
 
-        case types.PRELOADER_STOP:
-            return {
-                ...state,
-                preload: false
-            };
+    case types.PRELOADER_STOP:
+      return {
+        ...state,
+        preload: false
+      };
 
-        default:
-            return state;
-    }
+    default:
+      return state;
+  }
 }
