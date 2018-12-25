@@ -34,6 +34,11 @@ export const createChat = usersId => ({
   }
 });
 
+export const newMessage = data => ({
+  type: types.NEW_MESSAGE,
+  payload: data
+});
+
 export const checkLoginSuccess = (status, data) => ({
   type: types.CHECK_LOGIN_SUCCESS,
   payload: {

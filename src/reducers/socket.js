@@ -24,6 +24,10 @@ export default function socket(state = initialState, action) {
       state.socket.emit('chat:create', { id: action.payload.users_id });
       return { ...state };
 
+    case types.NEW_MESSAGE:
+      state.socket.emit('chat:message:new', action.payload);
+      return { ...state };
+
     default:
       return state;
   }

@@ -39,6 +39,8 @@ export default class MessagesHistory extends Component {
         alignItems="stretch"
       >
         {messages.map(message => {
+          if (!message) return '';
+
           if (message.user_id === user.id) {
             return <MyMessage key={message.id.toString()} message={message} />;
           }

@@ -5,7 +5,7 @@ import Grid from '@material-ui/core/Grid/Grid';
 import MessageArea from './components/messageArea';
 import MembersMain from './components/membersMain';
 import MessagesHistory from './components/messagesHistory';
-import { changeChat, createChat, setDataAfterAuth } from '../../../actions/socket';
+import { changeChat, createChat, setDataAfterAuth, newMessage } from '../../../actions/socket';
 import { preloaderStartAction, preloaderStopAction } from '../../../actions/common';
 
 const io = require('socket.io-client');
@@ -35,7 +35,8 @@ const mapDispatchToProps = dispatch => ({
   preloaderStartAction: () => dispatch(preloaderStartAction()),
   preloaderStopAction: () => dispatch(preloaderStopAction()),
   changeChat: data => dispatch(changeChat(data)),
-  createChat: data => dispatch(createChat(data))
+  createChat: data => dispatch(createChat(data)),
+  newMessage: data => dispatch(newMessage(data))
 });
 
 function mapStateToProps(state) {
@@ -112,6 +113,23 @@ export default class Index extends Component {
         activeChat: data.data.chat
       });
     });
+
+    socket.on('chat:message:new', data => {
+      // eslint-disable-next-line no-console
+      if (process.env.NODE_ENV === 'development') console.log('chat:message:new', data);
+      if (data.chat.chat_id !== this.state.activeChat.chat_id) {
+        // TODO добавить бадж о новом сообщении в неактивном чате
+        return
+      }
+
+      const {messages} = this.state;
+
+      messages.push(data.new_message);
+
+      this.setState({
+        messages,
+      });
+    });
   }
 
   componentWillUnmount() {
@@ -131,8 +149,14 @@ export default class Index extends Component {
     if (chat.active === true) {
       return;
     }
-
+    this.setState({
+      messages: []
+    });
     this.props.changeChat(chat.chat_id);
+  };
+
+  onNewMessage = message => {
+    this.props.newMessage({message, activeChat: this.state.activeChat});
   };
 
   render() {
@@ -163,11 +187,7 @@ export default class Index extends Component {
             onChangeChat={this.onChangeChat}
           />
         </Grid>
-        {this.state.isConnected === true && this.state.socket ? (
-          <MessageArea chactiveChatat={this.state.chat} />
-        ) : (
-          ''
-        )}
+          <MessageArea activeChat={this.state.chat} onNewMessage={this.onNewMessage}/>
       </Grid>
     );
   }

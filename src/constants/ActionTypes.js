@@ -9,3 +9,4 @@ export const SET_TOKEN_TO_SOCKET = 'SET_TOKEN_TO_SOCKET';
 export const SET_DATA_AFTER_AUTH = 'SET_DATA_AFTER_AUTH';
 export const CHANGE_CHAT = 'CHANGE_CHAT';
 export const CREATE_CHAT = 'CREATE_CHAT';
+export const NEW_MESSAGE = 'NEW_MESSAGE';

@@ -1,11 +1,12 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import Grid from '@material-ui/core/Grid/Grid';
 import TextField from '@material-ui/core/TextField/TextField';
 import Button from '@material-ui/core/Button/Button';
 import Icon from '@material-ui/core/Icon/Icon';
 import withStyles from '@material-ui/core/styles/withStyles';
+import PropTypes from 'prop-types';
 
-const styles = () => ({
+const styles = {
   chatSendButton: {
     marginTop: '15px'
   },
@@ -13,18 +14,33 @@ const styles = () => ({
     height: '100px',
     borderTop: '1px solid #ddd'
   }
-});
+};
 
-class messageArea extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      name: ''
-    };
-  }
+@withStyles(styles)
+export default class messageArea extends Component {
+  state = {
+    message: ''
+  };
+
+  static propTypes = {
+    activeChat: PropTypes.shape({}),
+    onNewMessage: PropTypes.func.isRequired
+  };
+
+  static defaultProps = {
+    activeChat: {}
+  };
 
   handleChange = event => {
-    this.setState({ name: event.target.value });
+    this.setState({ message: event.target.value });
+  };
+
+  newMessage = () => {
+    if (!this.state.message || this.state.message.trim() === '') return;
+    this.props.onNewMessage(this.state.message);
+    this.setState({
+      message: ''
+    });
   };
 
   render() {
@@ -41,7 +57,7 @@ class messageArea extends Component {
         <Grid item xs={9}>
           <TextField
             id="name-simple"
-            value={this.state.name}
+            value={this.state.message}
             multiline
             fullWidth
             rows="2"
@@ -56,6 +72,7 @@ class messageArea extends Component {
             color="primary"
             className={this.props.classes.chatSendButton}
             aria-label="Delete"
+            onClick={this.newMessage}
           >
             Send &nbsp;
             <Icon>send</Icon>
@@ -65,5 +82,3 @@ class messageArea extends Component {
     );
   }
 }
-
-export default withStyles(styles)(messageArea);
