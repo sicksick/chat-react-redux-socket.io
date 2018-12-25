@@ -86,8 +86,8 @@ export default class Index extends Component {
             >
               <Grid item xs={9} className={classes.gridItem}>
                 <Paper className={classes.paper}>
-                  <Route exact path={`${this.props.match.path}`} component={Home} />
-                  <Route path={`${this.props.match.path}chat`} component={Chat} />
+                  <Route path={`${this.props.match.path}`} component={Home} />
+                  <Route exact path={`${this.props.match.path}chat`} component={Chat} />
                 </Paper>
               </Grid>
             </Grid>
